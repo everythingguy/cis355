@@ -1,6 +1,6 @@
 <?php
 # connect
-include("database.php");
+include("../database.php");
 
 $n = $_POST['msg'];
 $id = $_GET['id'];

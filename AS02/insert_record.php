@@ -1,6 +1,6 @@
 <?php
 # connect
-include("database.php");
+include("../database.php");
 
 $n = $_POST['msg'];
 $sql = "INSERT INTO messages (message) VALUES ('$n')";

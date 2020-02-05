@@ -1,7 +1,7 @@
 <?php
 # error_reporting(E_ALL); ini_set('display_errors', 1);
 # connect
-include("database.php");
+include("../database.php");
 # display link to "create" form
 echo "<a href='display_create_form.php'>Create</a><br><br>";
 # display all records

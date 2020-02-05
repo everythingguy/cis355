@@ -1,5 +1,5 @@
 <?php
-include("database.php");
+include("../database.php");
 
 # put the information for the chosen record into variable $results 
 $id = $_GET['id'];

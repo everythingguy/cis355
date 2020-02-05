@@ -6,8 +6,9 @@
     <body>
         <h1>Assignments</h1>
         <ul>
-            <li>AS01: <a href="helloworld.php">Hello World</a>, <a href="showarrays.php">Array</a> and <a href="banas.php">Banas</a></li>
-            <li>AS02: <a href="display_list.php">CRUD</a></li>
+            <li>AS01: <a href="AS01/helloworld.php">Hello World</a>, <a href="AS01/showarrays.php">Array</a> and <a href="AS01/banas.php">Banas</a></li>
+            <li>AS02: <a href="AS02/display_list.php">CRUD</a></li>
+            <li><a href="https://github.com/everythingguy/cis355">Source</a></li>
         </ul>
     </body>
 </html>
