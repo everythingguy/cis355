@@ -15,5 +15,5 @@ foreach ($pdo->query($sql) as $row) {
   $str .=  '<br>';
   echo $str;
 }
-echo '<br />'; 
+echo "<br /><a href='../index.php'>Back</a>"; 
 ?>
