@@ -29,6 +29,9 @@
 		<a href="events/events.php" class="btn btn-success">Events</a>
 	</p>
 	<p>
+		<a href="../AS04/assignments.php" class="btn btn-success">Assignments</a>
+	</p>
+	<p>
 		<a href="../index.php" class="btn btn-danger">Back</a>
 	</p>
 </body>

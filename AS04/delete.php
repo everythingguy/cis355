@@ -1,5 +1,5 @@
 <?php 
-	require '../database/database.php';
+	require '../AS03/database/database.php';
 	$id = 0;
 	
 	if ( !empty($_GET['id'])) {
@@ -13,11 +13,11 @@
 		// delete data
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "DELETE FROM events  WHERE id = ?";
+		$sql = "DELETE FROM assignments  WHERE id = ?";
 		$q = $pdo->prepare($sql);
 		$q->execute(array($id));
 		Database::disconnect();
-		header("Location: events.php");
+		header("Location: assignments.php");
 		
 	} 
 ?>
@@ -26,8 +26,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link   href="../css/bootstrap.min.css" rel="stylesheet">
-    <script src="../js/bootstrap.min.js"></script>
+    <link   href="../AS03/css/bootstrap.min.css" rel="stylesheet">
+    <script src="../AS03/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -35,7 +35,7 @@
     
     			<div class="span10 offset1">
     				<div class="row">
-		    			<h3>Delete a Event</h3>
+		    			<h3>Delete a Assignment</h3>
 		    		</div>
 		    		
 	    			<form class="form-horizontal" action="delete.php" method="post">
@@ -43,7 +43,7 @@
 					  <p class="alert alert-error">Are you sure you want to delete?</p>
 					  <div class="form-actions">
 						  <button type="submit" class="btn btn-danger">Yes</button>
-						  <a class="btn" href="events.php">No</a>
+						  <a class="btn" href="assignments.php">No</a>
 						</div>
 					</form>
 				</div>
