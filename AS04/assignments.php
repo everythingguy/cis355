@@ -25,7 +25,7 @@
                     $sql = 'SELECT * FROM events';
                     foreach($pdo->query($sql) as $table) {
                             echo "<h1>". $table['description'] . "</h1>";
-                            echo "<h4>When: " . $table['date'] . " " . $table["time"] . "</h4><h4>Location: " . $table['location'] . "</h4>";
+                            echo "<h4 style='display:inline-block;'>When: " . $table['date'] . " " . $table["time"] . "</h4><h4 style='display: inline-block; float: right;''>Location: " . $table['location'] . "</h4>";
                         ?>
                             <table class="table table-striped table-bordered">
                                 <thead>
