@@ -11,6 +11,8 @@
             <li>AS03: <a href="AS03/as03.php">Customer and Events Tables</a></li>
             <li>AS04: <a href="AS04/assignments.php">Assignments Table</a></li>
             <li>Source Code: <a href="https://github.com/everythingguy/cis355">Github</a></li>
+            <br>
+            <li>CIS 255: <a href="http://hw.duraken.com">here</a></li>
         </ul>
     </body>
 </html>
