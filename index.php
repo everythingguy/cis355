@@ -46,6 +46,7 @@
         <p>AS02: <a href="AS02/display_list.php">CRUD</a></p>
         <p>AS03: <a href="AS03/as03.php">Customer and Events Tables</a></p>
         <p>AS04: <a href="AS04/assignments.php">Assignments Table</a></p>
+        <p>AS05: <a href="AS05/index.php">Expense Tracker</a></p>
         <p>Source Code: <a href="https://github.com/everythingguy/cis355">Github</a></p>
         <br>
         <p>CIS 255: <a href="http://hw.duraken.com">here</a></p>
