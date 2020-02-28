@@ -19,7 +19,7 @@
             $q->execute(array($username, $passwordhash));
             $data = $q->fetch(PDO::FETCH_ASSOC);
 
-            if ($data) {
+            if ($data && $data["verified"]) {
                 $_SESSION["loggedin"] = true;
                 $_SESSION["user_ID"] = $data["id"];
                 $_SESSION["username"] = $data["username"];
@@ -27,7 +27,7 @@
                 if (!empty($data["picture"])) $_SESSION["picture"] = base64_encode($data["picture"]);
                 header("Location: index.php");
             } else {
-                $error = "The username or password doesn't match our records";
+                $error = "The username or password doesn't match our records. Make sure your email is verified.";
             }
 
             Database::disconnect();

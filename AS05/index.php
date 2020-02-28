@@ -24,7 +24,7 @@
                     $totalExpense = 0;
                     $pdo = Database::connect();
                     $month = date("m");
-                    $sql = "SELECT * FROM expenses WHERE Month(date) = $month ORDER BY id DESC";
+                    $sql = "SELECT * FROM expenses WHERE Month(date) = $month AND user_id = ".$_SESSION["user_ID"]." ORDER BY id DESC";
                     foreach ($pdo->query($sql) as $row) {
                         echo '<tr>';
                         echo '<td>' . $row['name'] . '</td>';

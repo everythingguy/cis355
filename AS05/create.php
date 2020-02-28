@@ -1,8 +1,8 @@
 <?php require_once "partial/header.php"; ?>
 
 <?php
-    require_once "database/database.php";
-
+    require_once "api.php";
+    
     if (!empty($_POST)) {
         $error = null;
 
@@ -44,12 +44,21 @@
             } else {
                 $passwordhash = md5($password);
 
+                $verifyHash = md5(rand(0,1000));
+
                 $pdo = Database::connect();
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $sql = "INSERT INTO users (email, username, password, phone, address, income) value(?,?,?,?,?,?)";
+                $sql = "INSERT INTO users (email, username, password, phone, address, income, verifyHash) value(?,?,?,?,?,?, ?)";
                 $q = $pdo->prepare($sql);
-                $q->execute(array($email, $username, $passwordhash, $phone, $address, $income));
+                $q->execute(array($email, $username, $passwordhash, $phone, $address, $income, $verifyHash));
                 Database::disconnect();
+
+                //send verify email
+                $subject = "Duraken Signup Verification";
+                $msg = 'Thank you for creating an account with us, '.$username.'!<br><br>Please follow the link to finish activating your account.<br><a href=\'http://10.0.0.194:8880/AS05/verify.php?verifyHash='.$verifyHash.'\'>Click Here</a>';
+
+                shell_exec("ssh root@10.0.0.194 \"curl -s --user 'api:$apikey' https://api.mailgun.net/v3/duraken.com/messages -F from='NoReply <noreply@duraken.com>' -F to=$email -F subject='$subject' -F html='$msg'\"");
+
                 header("Location: login.php");
             }
         }
