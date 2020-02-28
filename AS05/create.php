@@ -55,7 +55,7 @@
 
                 //send verify email
                 $subject = "Duraken Signup Verification";
-                $msg = 'Thank you for creating an account with us, '.$username.'!<br><br>Please follow the link to finish activating your account.<br><a href=\'http://10.0.0.194:8880/AS05/verify.php?verifyHash='.$verifyHash.'\'>Click Here</a>';
+                $msg = 'Thank you for creating an account with us, '.$username.'!<br><br>Please follow the link to finish activating your account.<br><a href=\'http://vpn.kevingyorick.com/AS05/verify.php?verifyHash='.$verifyHash.'\'>Click Here</a>';
 
                 shell_exec("ssh root@10.0.0.194 \"curl -s --user 'api:$apikey' https://api.mailgun.net/v3/duraken.com/messages -F from='NoReply <noreply@duraken.com>' -F to=$email -F subject='$subject' -F html='$msg'\"");
 
