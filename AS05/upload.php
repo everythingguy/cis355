@@ -12,6 +12,16 @@
         Database::disconnect();
 
         unset($_SESSION["picture"]);
+    } elseif(!empty($_POST["income"])) {
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE users set income = ? WHERE id = ?";
+        $q = $pdo->prepare($sql);
+        $q->execute(array($_POST["income"], $_SESSION['user_ID']));
+        Database::disconnect();
+        
+        $_SESSION["income"] = $_POST["income"];
+        redirect("index.php");
     } elseif (count($_FILES) > 0) {
         $error = null;
 
@@ -66,6 +76,17 @@
                 <a class="btn" href="index.php">Back</a>
                 <button class="btn btn-danger" onclick="location.href='upload.php?remove=true'; return false;">Remove</button>
                 <button type="submit" class="btn btn-success">Upload</button>
+            </div>
+        </form>
+        <form class="form-horizontal" method="post" action="upload.php">
+            <div class="control-group">
+                <label class="control-label">Monthly Income</label>
+                <div class="controls">
+                    <input name="income" type="text">
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success">Update</button>
             </div>
         </form>
     </div>

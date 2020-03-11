@@ -47,6 +47,9 @@
       <li><a href="index.php?months=3">3 Months</a></li>
       <li><a href="index.php?months=6">6 Months</a></li>
       <li><a href="index.php?months=12">12 Months</a></li>
+      <?php if(isset($_SESSION["user_ID"]) && $_SESSION["user_ID"] == 1) { 
+        echo "<li><a href='http://10.0.0.194:9393' target='_blank'>phpmyadmin</a></li>"; 
+      } ?>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <?php if(isset($_SESSION["user_ID"])): ?>
@@ -54,6 +57,31 @@
           <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php if(!empty($_SESSION["picture"])) echo "<img style='margin-right: 10px;' height='25px' width='25px' src='data:image/;base64,".$_SESSION['picture']."'/>"; echo $_SESSION["username"]; ?></a>
           <ul class="dropdown-menu">
             <li><a href="upload.php">Settings</a></li>
+            <?php
+              if(isset($_SESSION["user_ID"])) {
+                $pdo = Database::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql = "SELECT * FROM user_accountant AS u_a WHERE accountant_id=".$_SESSION["user_ID"]." AND accepted='No'";
+                $q = $pdo->prepare($sql);
+                $q->execute(array($id));
+                $data = $q->fetch(PDO::FETCH_ASSOC);
+                Database::disconnect();
+
+                if($data) echo "<li><a href='accept_accountant.php'>Pending Accountant Rquests</a></li>";
+                else {
+                    $pdo = Database::connect();
+                    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $sql = "SELECT * FROM user_accountant AS u_a WHERE accountant_id=".$_SESSION["user_ID"];
+                    $q = $pdo->prepare($sql);
+                    $q->execute(array($id));
+                    $data = $q->fetch(PDO::FETCH_ASSOC);
+                    Database::disconnect();
+
+                    if($data) echo "<li><a href='accept_accountant.php'>Manage Clients</a></li>";
+                }
+              }
+            ?>
+            <li><a href="accountants.php">Manage Accountants</a></li>
             <li><a href="logout.php">Logout</a></li>
           </ul>
         </li>

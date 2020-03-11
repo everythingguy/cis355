@@ -7,7 +7,7 @@
 	}
 
 	if ($id == null) {
-		redirect("Location: index.php");
+		redirect("index.php");
 	}
 
 	if (!empty($_POST)) {

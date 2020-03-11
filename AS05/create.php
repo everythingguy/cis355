@@ -2,7 +2,7 @@
 
 <?php
     require_once "api.php";
-    
+
     if (!empty($_POST)) {
         $error = null;
 
@@ -42,7 +42,10 @@
             if ($data) {
                 $error = $error . "<li>There is already an account with that username</li>";
             } else {
-                $passwordhash = md5($password);
+                //create a random lower case letter to pepper the hash
+                $pepper = chr(rand(97,122));
+                //use the global salt password to salt the hash
+                $passwordhash = md5($salt.$password.$pepper);
 
                 $verifyHash = md5(rand(0,1000));
 
@@ -55,11 +58,11 @@
 
                 //send verify email
                 $subject = "Duraken Signup Verification";
-                $msg = 'Thank you for creating an account with us, '.$username.'!<br><br>Please follow the link to finish activating your account.<br><a href=\'http://vpn.kevingyorick.com/AS05/verify.php?verifyHash='.$verifyHash.'\'>Click Here</a>';
+                $msg = 'Thank you for creating an account with us, '.$username.'!<br><br>Please follow the link to finish activating your account.<br><a href=\'http://cis355.duraken.com/AS05/verify.php?verifyHash='.$verifyHash.'\'>Click Here</a>';
 
-                shell_exec("ssh root@10.0.0.194 \"curl -s --user 'api:$apikey' https://api.mailgun.net/v3/duraken.com/messages -F from='NoReply <noreply@duraken.com>' -F to=$email -F subject='$subject' -F html='$msg'\"");
+                shell_exec("ssh -o StrictHostKeyChecking=no root@10.0.0.194 \"curl -s --user 'api:$apikey' https://api.mailgun.net/v3/duraken.com/messages -F from='NoReply <noreply@duraken.com>' -F to=$email -F subject='$subject' -F html='$msg'\"");
 
-                header("Location: login.php");
+                redirect("login.php?new=true");
             }
         }
     }
@@ -70,7 +73,7 @@
         <div>
             <form class="form-horizontal" method="post" action="create.php">
                 <?php if (!empty($error)) : ?>
-                    <div class="control-group error">
+                    <div class="control-group alert alert-danger">
                         <div class="controls">
                             <span class="help-inline">
                                 <ul><?php echo $error; ?></ul>
