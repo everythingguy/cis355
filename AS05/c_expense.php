@@ -2,6 +2,13 @@
 <?php
 	loggedin();
 
+	if($_SESSION["index"] != "normal") {
+		if(!validAccountant($_SESSION["index"])) {
+			redirect("index.php");
+			exit();
+		}
+	}
+
 	if (!empty($_POST)) {
 		// keep track validation errors
 		$nameError = null;
@@ -33,9 +40,14 @@
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "INSERT INTO expenses (name,amount,user_id,date) values(?, ?, ?,?)";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($name,$amount,$_SESSION["user_ID"],$date));
+			if($_SESSION['index'] == "normal") $q->execute(array($name,$amount,$_SESSION["user_ID"],$date));
+			else $q->execute(array($name,$amount,$_SESSION["index"],$date));
 			Database::disconnect();
-			redirect("index.php");
+			if($_SESSION["index"] == "normal") {
+				redirect("index.php");
+			} else {
+				redirect("index.php?id=".$_SESSION["index"]);
+			}
 		}
 	}
 ?>
@@ -67,7 +79,13 @@
 			</div>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-success">Log</button>
-				<a class="btn" href="index.php">Back</a>
+				<?php 
+					if($_SESSION["index"] == "normal") {
+						echo '<a class="btn" href="index.php">Back</a>';
+					} else {
+						echo '<a class="btn" href="index.php?id='.$_SESSION["index"].'">Back</a>';
+					} 
+				?>
 			</div>
 		</form>
 	</div>

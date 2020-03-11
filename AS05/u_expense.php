@@ -3,11 +3,27 @@
 	loggedin();
 	$id = null;
 	if (!empty($_GET['id'])) {
-		$id = $_REQUEST['id'];
+		$id = $_GET['id'];
 	}
 
 	if ($id == null) {
 		redirect("index.php");
+		exit();
+	}
+
+	$pdo = Database::connect();
+	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	$sql = "SELECT * FROM expenses where id = ?";
+	$q = $pdo->prepare($sql);
+	$q->execute(array($id));
+	$data = $q->fetch(PDO::FETCH_ASSOC);
+	$name = $data['name'];
+	$amount = $data['amount'];
+	Database::disconnect();
+
+	if(!validAccountant($data["user_id"])) {
+		redirect("index.php");
+		exit();
 	}
 
 	if (!empty($_POST)) {
@@ -42,18 +58,12 @@
 			$q = $pdo->prepare($sql);
 			$q->execute(array($name, $amount, $id));
 			Database::disconnect();
-			redirect("index.php");
+			if($_SESSION["index"] == "normal") {
+				redirect("index.php");
+			} else {
+				redirect("index.php?id=".$_SESSION["index"]);
+			}
 		}
-	} else {
-		$pdo = Database::connect();
-		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT * FROM expenses where id = ?";
-		$q = $pdo->prepare($sql);
-		$q->execute(array($id));
-		$data = $q->fetch(PDO::FETCH_ASSOC);
-		$name = $data['name'];
-		$amount = $data['amount'];
-		Database::disconnect();
 	}
 ?>
 
@@ -85,7 +95,13 @@
 			</div>
 			<div class="form-actions">
 				<button type="submit" class="btn btn-success">Update</button>
-				<a class="btn" href="index.php">Back</a>
+				<?php 
+					if($_SESSION["index"] == "normal") {
+						echo '<a class="btn" href="index.php">Back</a>';
+					} else {
+						echo '<a class="btn" href="index.php?id='.$_SESSION["index"].'">Back</a>';
+					} 
+				?>
 			</div>
 		</form>
 	</div>

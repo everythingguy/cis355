@@ -34,6 +34,23 @@
     function redirect($url) {
       echo "<script> location.href='$url'; </script>";
     }
+
+    function validAccountant($user_id) {
+      if($user_id != $_SESSION['user_ID']) {
+        $validAccountant = false;
+        
+        $pdo = Database::connect();
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = 'SELECT * FROM user_accountant WHERE user_id=? AND accountant_id=?';
+        $q = $pdo->prepare($sql);
+        $q->execute(array($user_id, $_SESSION['user_ID']));
+        $data = $q->fetch(PDO::FETCH_ASSOC);
+        Database::disconnect();
+        if($data) $validAccountant = true;
+    
+        return $validAccountant;
+      } else return true;
+    }
 ?>
 
 <body style="height: 100%; width: 100%;">
@@ -63,7 +80,7 @@
                 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 $sql = "SELECT * FROM user_accountant AS u_a WHERE accountant_id=".$_SESSION["user_ID"]." AND accepted='No'";
                 $q = $pdo->prepare($sql);
-                $q->execute(array($id));
+                $q->execute();
                 $data = $q->fetch(PDO::FETCH_ASSOC);
                 Database::disconnect();
 
@@ -73,15 +90,25 @@
                     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                     $sql = "SELECT * FROM user_accountant AS u_a WHERE accountant_id=".$_SESSION["user_ID"];
                     $q = $pdo->prepare($sql);
-                    $q->execute(array($id));
+                    $q->execute();
                     $data = $q->fetch(PDO::FETCH_ASSOC);
                     Database::disconnect();
 
                     if($data) echo "<li><a href='accept_accountant.php'>Manage Clients</a></li>";
                 }
+
+                $pdo = Database::connect();
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql = "SELECT * FROM user_accountant AS u_a WHERE user_id=".$_SESSION["user_ID"]." AND accepted='Pending Price Negotiation'";
+                $q = $pdo->prepare($sql);
+                $q->execute();
+                $data = $q->fetch(PDO::FETCH_ASSOC);
+                Database::disconnect();
+
+                if($data) echo "<li><a href='accountants.php'>Pending Price Negotiation</a></li>";
+                else echo "<li><a href='accountants.php'>Manage Accountants</a></li>";
               }
             ?>
-            <li><a href="accountants.php">Manage Accountants</a></li>
             <li><a href="logout.php">Logout</a></li>
           </ul>
         </li>

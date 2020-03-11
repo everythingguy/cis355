@@ -42,7 +42,6 @@
             <tbody>
                 <?php
                     $pdo = Database::connect();
-                    $month = date("m");
                     $sql = "SELECT *, u_a.id AS aid FROM user_accountant AS u_a INNER JOIN users AS u ON u.id=u_a.user_id WHERE u_a.accountant_id=".$_SESSION["user_ID"]." ORDER BY u_a.id DESC";
                     foreach ($pdo->query($sql) as $row) {
                         echo '<tr>';
@@ -55,7 +54,10 @@
                         if($row['accepted'] == "No") echo '<a class="btn" href="accountant_price.php?id=' . $row['aid'] . '">Price</a>';
                         echo '&nbsp;';
                         $remove = "Decline";
-                        if($row['accepted'] == "Yes") $remove = "Remove";
+                        if($row['accepted'] == "Yes") {
+                            $remove = "Remove";
+                            echo '<a class="btn btn-success" href="index.php?id=' . $row['user_id'] . '">View</a>';
+                        }
                         echo '<a class="btn btn-danger" href="accept_accountant.php?mode=Decline&id=' . $row['aid'] . '">'.$remove.'</a>';
                         echo '</td>';
                         echo '</tr>';
