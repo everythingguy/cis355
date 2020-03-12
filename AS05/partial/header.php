@@ -79,8 +79,10 @@
         }
       ?>
       <?php if(isset($_SESSION["user_ID"]) && $_SESSION["user_ID"] == 1) { 
-        echo "<li><a href='http://10.0.0.194:9393' target='_blank'>phpmyadmin</a></li>"; 
-      } ?>
+        echo "<li><a href='http://10.0.0.194:9393' target='_blank'>phpmyadmin</a></li>";
+        echo "<li><a href='https://github.com/everythingguy/cis355' target='_blank'>GitHub</a></li>";
+      } 
+      ?>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <?php if(isset($_SESSION["user_ID"])): ?>
