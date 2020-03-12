@@ -9,17 +9,17 @@
         if($mode == "Accept") {
             $pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE user_accountant set accepted = 'Yes' WHERE id = ?";
+			$sql = "UPDATE user_accountant set accepted = 'Yes' WHERE id = ? AND accountant_id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($_GET['id']));
+			$q->execute(array($_GET['id'], $_SESSION['user_ID']));
 			Database::disconnect();
 			redirect("accept_accountant.php");
         } elseif($mode == "Decline") {
             $pdo = Database::connect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "DELETE FROM user_accountant WHERE id=?";
+            $sql = "DELETE FROM user_accountant WHERE id = ? AND accountant_id = ?";
             $q = $pdo->prepare($sql);
-            $q->execute(array($_GET['id']));
+            $q->execute(array($_GET['id'], $_SESSION['user_ID']));
             redirect("accept_accountant.php");
             Database::disconnect();
         }

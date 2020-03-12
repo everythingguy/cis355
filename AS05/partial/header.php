@@ -61,9 +61,23 @@
       <a class="navbar-brand" href="index.php">Duraken</a>
     </div>
     <ul class="nav navbar-nav">
-      <li><a href="index.php?months=3">3 Months</a></li>
-      <li><a href="index.php?months=6">6 Months</a></li>
-      <li><a href="index.php?months=12">12 Months</a></li>
+      <?php
+        for($i = 3; $i <= 12; $i = $i * 2) {
+          if($_SESSION["index"] == "normal") {
+            echo "<li><a href='index.php?months=$i'>$i Months</a></li>";
+          } else {
+            $index = $_SESSION["index"];
+            echo "<li><a href='index.php?months=$i&id=$index'>$i Months</a></li>";
+          }
+        }
+
+        if($_SESSION["index"] == "normal") {
+          echo "<li><a href='index.php?months=99'>All Time</a></li>";
+        } else {
+          $index = $_SESSION["index"];
+          echo "<li><a href='index.php?months=99&id=$index'>All Time</a></li>";
+        }
+      ?>
       <?php if(isset($_SESSION["user_ID"]) && $_SESSION["user_ID"] == 1) { 
         echo "<li><a href='http://10.0.0.194:9393' target='_blank'>phpmyadmin</a></li>"; 
       } ?>

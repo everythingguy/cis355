@@ -14,9 +14,9 @@
 		// delete data
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "DELETE FROM user_accountant  WHERE id = ?";
+		$sql = "DELETE FROM user_accountant  WHERE id = ? AND user_id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($id));
+		$q->execute(array($id, $_SESSION['user_ID']));
 		Database::disconnect();
 		redirect("accountants.php");
 	}

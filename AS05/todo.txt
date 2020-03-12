@@ -1,11 +1,3 @@
-make read, edit, remove, accept, decline methods more secure
-
-make all nav buttons work correctly
-
-allow accountants to view their clients pages
-
-fix alignment of buttons on accept_accountant
-
 add accountants to expenses
 
 add clients to income

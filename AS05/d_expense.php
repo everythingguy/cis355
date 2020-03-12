@@ -1,7 +1,6 @@
 <?php require "partial/header.php"; ?>
 <?php
 	loggedin();
-	reportErrors();
 	$id = null;
 
 	if (!empty($_GET['id'])) {

@@ -1,6 +1,7 @@
 <?php require "partial/header.php"; ?>
 <?php
 	loggedin();
+	reportErrors();
 	$id = null;
 	if (!empty($_GET['id'])) {
 		$id = $_REQUEST['id'];
@@ -33,18 +34,18 @@
 		if ($valid) {
 			$pdo = Database::connect();
 			$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE user_accountant set price = ?, accepted = 'No' WHERE id = ?";
+			$sql = "UPDATE user_accountant AS u_a set price = ?, accepted = 'No' WHERE id = ? AND u_a.user_id = ?";
 			$q = $pdo->prepare($sql);
-			$q->execute(array($price, $id));
+			$q->execute(array($price, $id, $_SESSION['user_ID']));
 			Database::disconnect();
 			redirect("accountants.php");
 		}
 	} else {
         $pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT *, u_a.id AS uaid FROM user_accountant AS u_a INNER JOIN users AS u ON u_a.accountant_id=u.id where u_a.id = ?";
+		$sql = "SELECT *, u_a.id AS uaid FROM user_accountant AS u_a INNER JOIN users AS u ON u_a.accountant_id=u.id WHERE u_a.id = ? AND u_a.user_id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($id));
+		$q->execute(array($id, $_SESSION['user_ID']));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 		$username = $data['username'];
         $price = $data['price'];

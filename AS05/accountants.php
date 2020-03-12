@@ -6,9 +6,9 @@
     if(!empty($_GET['id'])) {
         $pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "UPDATE user_accountant set accepted = 'Yes' WHERE id = ?";
+		$sql = "UPDATE user_accountant set accepted = 'Yes' WHERE id = ? AND user_id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($_GET['id']));
+		$q->execute(array($_GET['id'], $_SESSION['user_ID']));
 		Database::disconnect();
 		redirect("accountants.php");
     }
@@ -60,7 +60,7 @@
             </tbody>
         </table>
         <?php
-            echo "<p style='display: inline-block; width: 33%;'>Total Price: $".$totalExpense."</p>";
+            echo "<p style='display: inline-block; width: 33%;'>Total Price: $".number_format($totalExpense, 2, ".", ",")."</p>";
         ?>
     </div>
 </div>

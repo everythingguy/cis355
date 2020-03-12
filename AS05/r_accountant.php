@@ -1,7 +1,6 @@
 <?php require "partial/header.php"; ?>
 <?php
     loggedin();
-    reportErrors();
 	$id = null;
 	if (!empty($_GET['id'])) {
 		$id = $_REQUEST['id'];
@@ -12,9 +11,9 @@
 	} else {
 		$pdo = Database::connect();
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT * FROM user_accountant AS u_a INNER JOIN users AS u ON u_a.accountant_id=u.id where u_a.id = ?";
+		$sql = "SELECT * FROM user_accountant AS u_a INNER JOIN users AS u ON u_a.accountant_id=u.id WHERE u_a.id = ? AND u_a.user_id = ?";
 		$q = $pdo->prepare($sql);
-		$q->execute(array($id));
+		$q->execute(array($id, $_SESSION['user_ID']));
 		$data = $q->fetch(PDO::FETCH_ASSOC);
 		Database::disconnect();
 	}
