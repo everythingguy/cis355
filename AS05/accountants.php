@@ -25,6 +25,7 @@
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
+                    <th>Picture</th>
                     <th>Name</th>
                     <th>Price</th>
                     <th>Accepted</th>
@@ -38,6 +39,8 @@
                     $sql = "SELECT *, u_a.id AS aid FROM user_accountant AS u_a INNER JOIN users AS u ON u.id=u_a.accountant_id WHERE u_a.user_id= ".$_SESSION["user_ID"]." ORDER BY u_a.id DESC";
                     foreach ($pdo->query($sql) as $row) {
                         echo '<tr>';
+                        if($row['picture']) echo "<td><img style='display: block; margin: 0 auto;' height='100px' width='100px' src='data:image/;base64,".base64_encode($row['picture'])."'/></td>";
+                        else echo "<td></td>";
                         echo '<td>' . $row['username'] . '</td>';
                         echo '<td>' . $row['price'] . '</td>';
                         echo '<td>' . $row['accepted'] . '</td>';
