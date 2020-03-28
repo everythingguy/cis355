@@ -4,6 +4,10 @@
     require_once "api.php";
     $error = null;
 
+    if(isLoggedIn()) {
+        redirect("index.php");
+    }
+
     if(!empty($_GET) && $_GET["new"]) {
         $error = $error . "<li>Please verify your email before logging in!</li>";
     }

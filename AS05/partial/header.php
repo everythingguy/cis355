@@ -31,6 +31,11 @@
       }
     }
 
+    function isLoggedIn() {
+      if(isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) return true;
+      else return false;
+    }
+
     function redirect($url) {
       echo "<script> location.href='$url'; </script>";
     }
@@ -62,20 +67,22 @@
     </div>
     <ul class="nav navbar-nav">
       <?php
-        for($i = 3; $i <= 12; $i = $i * 2) {
+        if(isLoggedIn()) {
+          for($i = 3; $i <= 12; $i = $i * 2) {
+            if($_SESSION["index"] == "normal") {
+              echo "<li><a href='index.php?months=$i'>$i Months</a></li>";
+            } else {
+              $index = $_SESSION["index"];
+              echo "<li><a href='index.php?months=$i&id=$index'>$i Months</a></li>";
+            }
+          }
+
           if($_SESSION["index"] == "normal") {
-            echo "<li><a href='index.php?months=$i'>$i Months</a></li>";
+            echo "<li><a href='index.php?months=99'>All Time</a></li>";
           } else {
             $index = $_SESSION["index"];
-            echo "<li><a href='index.php?months=$i&id=$index'>$i Months</a></li>";
+            echo "<li><a href='index.php?months=99&id=$index'>All Time</a></li>";
           }
-        }
-
-        if($_SESSION["index"] == "normal") {
-          echo "<li><a href='index.php?months=99'>All Time</a></li>";
-        } else {
-          $index = $_SESSION["index"];
-          echo "<li><a href='index.php?months=99&id=$index'>All Time</a></li>";
         }
       ?>
       <?php if(isset($_SESSION["user_ID"]) && $_SESSION["user_ID"] == 1) { 
